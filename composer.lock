@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba67d8e390dbf7bfb5085bb8c52138c0",
+    "content-hash": "12a86afe6b2b504298c4639354b57af7",
     "packages": [
         {
             "name": "aaronfrancis/fast-paginate",
@@ -1055,11 +1055,17 @@
         },
         {
             "name": "evitenic/robusta-table",
-            "version": "2.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "packages/evitenic/robusta-table",
+            "version": "v2.0.0-beta-1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/evitenic/robusta-table.git",
                 "reference": "cb4c2a19b1400e97f7b7ce2c108d2f58b8257702"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/evitenic/robusta-table/zipball/cb4c2a19b1400e97f7b7ce2c108d2f58b8257702",
+                "reference": "cb4c2a19b1400e97f7b7ce2c108d2f58b8257702",
+                "shasum": ""
             },
             "require": {
                 "filament/filament": "^4.0",
@@ -1072,12 +1078,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "Evitenic\\RobustaTable\\RobustaTableServiceProvider"
-                    ],
                     "aliases": {
                         "RobustaTable": "Evitenic\\RobustaTable\\Facades\\RobustaTable"
-                    }
+                    },
+                    "providers": [
+                        "Evitenic\\RobustaTable\\RobustaTableServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -1086,11 +1092,7 @@
                     "Evitenic\\RobustaTable\\Database\\Factories\\": "database/factories/"
                 }
             },
-            "scripts": {
-                "format": [
-                    "vendor/bin/pint"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1112,10 +1114,7 @@
                 "issues": "https://github.com/evitenic/robusta-table/issues",
                 "source": "https://github.com/evitenic/robusta-table"
             },
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
+            "time": "2025-08-19T09:28:11+00:00"
         },
         {
             "name": "filament/actions",
@@ -11731,10 +11730,8 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "evitenic/robusta-table": 20
-    },
+    "minimum-stability": "beta",
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

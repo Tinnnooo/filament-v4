@@ -8,7 +8,7 @@
     "require": {
         "php": "^8.2",
         "aaronfrancis/fast-paginate": "^2.0",
-        "evitenic/robusta-table": "2.x-dev",
+        "evitenic/robusta-table": "^v2.0",
         "filament/filament": "^4.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
