@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\MsgraphMessages\Pages;
 
 use App\Filament\Resources\MsgraphMessages\MsgraphMessageResource;
-use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewMsgraphMessage extends ViewRecord

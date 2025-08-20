@@ -18,7 +18,7 @@ class RecipientFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'address' => $this->faker->safeEmail()
+            'address' => $this->faker->safeEmail(),
         ];
     }
 }

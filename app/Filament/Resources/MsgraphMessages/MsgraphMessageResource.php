@@ -7,15 +7,7 @@ use App\Filament\Resources\MsgraphMessages\Pages\ViewMsgraphMessage;
 use App\Models\MsgraphMessage;
 use BackedEnum;
 use Filament\Actions\Action;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
@@ -44,7 +36,7 @@ class MsgraphMessageResource extends Resource
 
     public static function getGlobalSearchResultUrl(Model $record): string
     {
-        return self::getUrl() . '?' . urldecode(http_build_query(['tableFilters' => ['subject' => ['subject' => $record->subject]]]));
+        return self::getUrl().'?'.urldecode(http_build_query(['tableFilters' => ['subject' => ['subject' => $record->subject]]]));
     }
 
     public static function getNavigationLabel(): string
@@ -64,7 +56,7 @@ class MsgraphMessageResource extends Resource
                 Section::make()
                     ->headerActions([
                         Action::make('detail')
-                            ->url(fn($record) => static::getUrl('detail', ['record' => $record]))
+                            ->url(fn ($record) => static::getUrl('detail', ['record' => $record])),
                     ])
                     ->schema([
                         TextEntry::make('subject'),
@@ -74,8 +66,8 @@ class MsgraphMessageResource extends Resource
                             ->label('Handle by'),
                         TextEntry::make('recipients.address')
                             ->label('Recipients')
-                            ->badge()
-                    ])
+                            ->badge(),
+                    ]),
             ])
             ->columns(1);
     }
@@ -103,14 +95,14 @@ class MsgraphMessageResource extends Resource
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('handleBy.name')
-                    ->label('Handle by')
+                    ->label('Handle by'),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
                 ViewAction::make()
-                    ->slideOver()
+                    ->slideOver(),
             ])
             ->toolbarActions([
                 //
@@ -129,7 +121,7 @@ class MsgraphMessageResource extends Resource
     {
         return [
             'index' => ManageMsgraphMessages::route('/'),
-            'detail' => ViewMsgraphMessage::route('/{record}')
+            'detail' => ViewMsgraphMessage::route('/{record}'),
         ];
     }
 }

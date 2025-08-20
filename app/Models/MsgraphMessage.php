@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MsgraphMessage extends Model
 {
-    use HasUuids, HasFactory;
+    use HasFactory, HasUuids;
 
     // protected $connection = 'crm-dev';
 
