@@ -3,17 +3,22 @@
 namespace App\Filament\Resources\MsgraphMessages;
 
 use App\Filament\Resources\MsgraphMessages\Pages\ManageMsgraphMessages;
+use App\Filament\Resources\MsgraphMessages\Pages\ViewMsgraphMessage;
 use App\Models\MsgraphMessage;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -39,7 +44,7 @@ class MsgraphMessageResource extends Resource
 
     public static function getGlobalSearchResultUrl(Model $record): string
     {
-        return self::getUrl().'?'.urldecode(http_build_query(['tableFilters' => ['subject' => ['subject' => $record->subject]]]));
+        return self::getUrl() . '?' . urldecode(http_build_query(['tableFilters' => ['subject' => ['subject' => $record->subject]]]));
     }
 
     public static function getNavigationLabel(): string
@@ -52,57 +57,33 @@ class MsgraphMessageResource extends Resource
         return 'Mail';
     }
 
-    public static function form(Schema $schema): Schema
+    public static function infolist(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make('msgraph_entity_id')
-                    ->required(),
-                RichEditor::make('body_content')
-                    ->required()
-                    ->columnSpanFull(),
-                TextInput::make('body_content_type')
-                    ->required(),
-                TextInput::make('body_preview'),
-                DateTimePicker::make('created_date_time')
-                    ->required(),
-                TextInput::make('from_email_address')
-                    ->email()
-                    ->required(),
-                TextInput::make('from_name'),
-                Toggle::make('has_attachments')
-                    ->required(),
-                TextInput::make('internet_message_id'),
-                Toggle::make('is_draft'),
-                Toggle::make('is_read')
-                    ->required(),
-                DateTimePicker::make('last_modified_date_time'),
-                TextInput::make('parent_folder_id')
-                    ->required(),
-                DateTimePicker::make('received_date_time')
-                    ->required(),
-                TextInput::make('reply_to'),
-                TextInput::make('sender'),
-                DateTimePicker::make('sent_date_time')
-                    ->required(),
-                TextInput::make('subject')
-                    ->required(),
-                TextInput::make('web_link'),
-                TextInput::make('conversation_id')
-                    ->required(),
-                TextInput::make('msgraph_conversation_id')
-                    ->required(),
-                TextInput::make('responsible_id'),
-            ]);
+                Section::make()
+                    ->headerActions([
+                        Action::make('detail')
+                            ->url(fn($record) => static::getUrl('detail', ['record' => $record]))
+                    ])
+                    ->schema([
+                        TextEntry::make('subject'),
+                        TextEntry::make('from_name'),
+                        TextEntry::make('from_email_address'),
+                        TextEntry::make('handleBy.name')
+                            ->label('Handle by'),
+                        TextEntry::make('recipients.address')
+                            ->label('Recipients')
+                            ->badge()
+                    ])
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(function (Builder $query) {
-                $query->with('attachments');
-            })
-            ->recordTitleAttribute('name')
+            ->recordTitleAttribute('subject')
             ->reorderableColumns()
             ->deferColumnManager(false)
             ->columns([
@@ -111,7 +92,6 @@ class MsgraphMessageResource extends Resource
                     ->boolean(),
                 TextColumn::make('subject')
                     ->searchable()
-                    ->description(fn ($record) => $record->body_preview)
                     ->toggleable(),
                 TextColumn::make('from_name')
                     ->searchable()
@@ -122,19 +102,18 @@ class MsgraphMessageResource extends Resource
                 TextColumn::make('received_date_time')
                     ->searchable()
                     ->toggleable(),
+                TextColumn::make('handleBy.name')
+                    ->label('Handle by')
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make()
-                    ->slideOver(),
-                DeleteAction::make(),
+                ViewAction::make()
+                    ->slideOver()
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                //
             ])
             ->resizeableColumns([
                 'minColumnWidth' => 50,
@@ -150,6 +129,7 @@ class MsgraphMessageResource extends Resource
     {
         return [
             'index' => ManageMsgraphMessages::route('/'),
+            'detail' => ViewMsgraphMessage::route('/{record}')
         ];
     }
 }
